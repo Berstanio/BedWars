@@ -20,10 +20,15 @@ public class Main extends JavaPlugin {
         switch (getSize()){
             case "2x4":
                 if (Bukkit.getOnlinePlayers().size() == 6) {
+                    // TODO: 24.11.17 Timer starten!
                     return true;
                 }
         }
         return false;
+    }
+
+    public void startGame(){
+        // TODO: 24.11.17 Hier machen!
     }
 
     public static String getSize() {
