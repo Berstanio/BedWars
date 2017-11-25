@@ -1,0 +1,20 @@
+Config:
+  names:
+  - test
+  test:
+    worldName: world
+    spawn:
+      x:
+      y:
+      z:
+      yaw:
+      pitch:
+    bed:
+      x:
+      y:
+      z:
+      yaw:
+      pitch:
+    colors:
+    - BLUE
+    - GREEN

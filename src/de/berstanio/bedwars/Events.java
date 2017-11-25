@@ -123,6 +123,9 @@ public class Events implements Listener {
     public void onBedDestroy(BlockDamageEvent e){
         // TODO: 25.11.17 Prozentanzeige
         if (e.getBlock().getType() == Material.BED){
+            if (Main.isStarted() || !BedWarsPlayer.hasBedwarsPlayer(e.getPlayer()) || BedWarsPlayer.getBedWarsPlayerForName(e.getPlayer()).isDead()){
+                return;
+            }
             for (BedWarsTeam bedWarsTeam : Main.getBedWarsTeams()) {
                 if (bedWarsTeam.getBedWarsBed().getLocation().equals(e.getBlock().getLocation())){
                     if (BedWarsPlayer.hasBedwarsPlayer(e.getPlayer())) {
