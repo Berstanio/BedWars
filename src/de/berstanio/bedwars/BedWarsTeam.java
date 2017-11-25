@@ -1,7 +1,7 @@
 package de.berstanio.bedwars;
 
-import org.bukkit.Color;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,31 @@ public class BedWarsTeam {
     private ArrayList<BedWarsPlayer> players = new ArrayList<>();
     private DyeColor color;
     private String name;
+    private Location spawnLocation;
+    private BedWarsBed bedWarsBed;
+    private int size;
 
-    public BedWarsTeam(DyeColor color, String name) {
+    public BedWarsTeam(DyeColor color, String name, Location spawnLocation, Location bedLocation, int size) {
         setColor(color);
         setName(name);
+        setSpawnLocation(spawnLocation);
+        setSize(size);
+        setBedWarsBed(new BedWarsBed(bedLocation, this));
+    }
+    public boolean isEmpty(){
+        return getPlayers().size() == 0;
+    }
+
+    public boolean isFull() {
+        return getPlayers().size() == getSize();
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public ArrayList<BedWarsPlayer> getPlayers() {
@@ -38,5 +59,21 @@ public class BedWarsTeam {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Location getSpawnLocation() {
+        return spawnLocation;
+    }
+
+    public void setSpawnLocation(Location spawnLocation) {
+        this.spawnLocation = spawnLocation;
+    }
+
+    public BedWarsBed getBedWarsBed() {
+        return bedWarsBed;
+    }
+
+    public void setBedWarsBed(BedWarsBed bedWarsBed) {
+        this.bedWarsBed = bedWarsBed;
     }
 }

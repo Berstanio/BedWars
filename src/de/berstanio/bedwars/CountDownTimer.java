@@ -4,14 +4,14 @@ import org.bukkit.Bukkit;
 
 import java.lang.reflect.Method;
 
-public class Countdowntimer {
+public class CountDownTimer {
     private int taskID;
     private int value;// TODO: 24.11.17 Name Ändern
     private String countDownMessage;
     private Method endMethod;
     private Object invokeObject;
 
-    public Countdowntimer(int value, String countDownMessage, Method endMethod, Object invokeObject) {
+    public CountDownTimer(int value, String countDownMessage, Method endMethod, Object invokeObject) {
         setValue(value);
         setCountDownMessage(countDownMessage);
         setEndMethod(endMethod);
