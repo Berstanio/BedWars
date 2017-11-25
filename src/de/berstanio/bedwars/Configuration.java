@@ -1,10 +1,11 @@
 package de.berstanio.bedwars;
 
 import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 
 
 public class Configuration {
@@ -14,7 +15,7 @@ public class Configuration {
         Main.getInstance().saveConfig();
         ArrayList<String> names = (ArrayList<String>) Main.getInstance().getConfig().getList("Config.names");
         for (String name : names) {
-            String worldName = Main.getInstance().getConfig().getString("Config." + name + ".worldName");
+            /*String worldName = Main.getInstance().getConfig().getString("Config." + name + ".worldName");
             int spawnX = Main.getInstance().getConfig().getInt("Config." + name + ".spawn.x");
             int spawnY = Main.getInstance().getConfig().getInt("Config." + name + ".spawn.y");
             int spawnZ = Main.getInstance().getConfig().getInt("Config." + name + ".spawn.z");
@@ -32,12 +33,36 @@ public class Configuration {
             ArrayList<DyeColor> dyeColors = new ArrayList<>();
             for (String color : colors) {
                 dyeColors.add(DyeColor.valueOf(color));
-            }
-            BedWarsMap bedWarsMap = new BedWarsMap(spawn, bed, size, dyeColors);
-            Main.getBedWarsMaps().add(bedWarsMap);
-            if (Bukkit.getWorld(worldName) != null){
-                BedWarsMap.setCurrentBedWarsMap(bedWarsMap);
+            }*/
+            String saveableMapString = Main.getInstance().getConfig().getString("Config." + name);
+            try {
+                SaveableMap saveableMap = (SaveableMap) deSerialize(saveableMapString);
+                if (Bukkit.getWorld(saveableMap.getWorldName()) != null) {
+                    Location spawn = new Location(Bukkit.getWorld(saveableMap.getWorldName()), saveableMap.getSpawnX(), saveableMap.getSpawnY(), saveableMap.getSpawnZ(), saveableMap.getSpawnYaw(), saveableMap.getSpawnPitch());
+                    Location bed = new Location(Bukkit.getWorld(saveableMap.getWorldName()), saveableMap.getBedX(), saveableMap.getBedY(), saveableMap.getBedZ());
+                    BedWarsMap bedWarsMap = new BedWarsMap(spawn, bed, saveableMap.getSize(), saveableMap.getColors());
+                    BedWarsMap.setCurrentBedWarsMap(bedWarsMap);
+                    break;
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
+    }
+
+    private Object deSerialize(String s) throws IOException, ClassNotFoundException {
+        byte [] data = Base64.getDecoder().decode(s);
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+        Object o  = ois.readObject();
+        ois.close();
+        return o;
+    }
+
+    private String serialize(Serializable o) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(o);
+        oos.close();
+        return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
 }

@@ -14,7 +14,6 @@ public class Main extends JavaPlugin {
     private static ArrayList<BedWarsTeam> bedWarsTeams = new ArrayList<>();
     private static boolean started;
     private static Main instance;
-    private static ArrayList<BedWarsMap> bedWarsMaps = new ArrayList<>();
 
     @Override
     public void onEnable() {
@@ -104,13 +103,6 @@ public class Main extends JavaPlugin {
         Bukkit.broadcastMessage("Fertig");
     }
 
-    public static ArrayList<BedWarsMap> getBedWarsMaps() {
-        return bedWarsMaps;
-    }
-
-    public static void setBedWarsMaps(ArrayList<BedWarsMap> bedWarsMaps) {
-        Main.bedWarsMaps = bedWarsMaps;
-    }
 
     public static Main getInstance() {
         return instance;
